@@ -5,16 +5,36 @@ import com.example.demospringaction.ingredients.Ingredients;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
+@Entity
 public class Taco {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
+
+    private Date createdAt;
+    @NotNull
+    @Size(min = 3, max = 12, message="Name must be at least 5 characters long")
+    private String name;
+    @ManyToMany(targetEntity=Ingredients.class)
+    @Size(min=1, message="You must choose at least 1 ingredient")
+    private List<Ingredients> ingredients;
+
+    public Taco(String name, List<Ingredients> ingredients) {
+        this.name = name;
+        this.ingredients = ingredients;
+    }
     public Taco() {
 
     }
-
+    //You’ll use this to set the createdAt property to the current date and time before Taco is persisted.
+    @PrePersist
+    void createdAt() {
+        this.createdAt = new Date();
+    }
     public Long getId() {
         return Id;
     }
@@ -29,18 +49,6 @@ public class Taco {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    private Date createdAt;
-    @NotNull
-    @Size(min = 3, max = 12, message="Name must be at least 5 characters long")
-    private String name;
-    @Size(min=1, message="You must choose at least 1 ingredient")
-    private List<Ingredients> ingredients;
-
-    public Taco(String name, List<Ingredients> ingredients) {
-        this.name = name;
-        this.ingredients = ingredients;
     }
 
     public String getName() {

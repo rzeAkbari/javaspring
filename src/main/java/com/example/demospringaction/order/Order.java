@@ -1,16 +1,20 @@
 package com.example.demospringaction.order;
 
+import com.example.demospringaction.ingredients.Ingredients;
 import com.example.demospringaction.taco.Taco;
 
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
-public class Order {
+@Entity
+@Table(name="Taco_Order")
+public class Order implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
-
-
     private Date createdAt;
     private String name;
     private String street;
@@ -19,6 +23,7 @@ public class Order {
     private String zip;
     private String ccNumber;
     private String ccExpiration;
+    @ManyToMany(targetEntity= Taco.class)
     private List<Taco> tacos;
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;

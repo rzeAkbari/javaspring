@@ -1,14 +1,23 @@
 package com.example.demospringaction.ingredients;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Objects;
-
+@Entity
 public class Ingredients {
-    private Long Id;
-    private String name;
-    private Type type;
+    @Id
+    private final Long Id;
+    private final String name;
+    private final Type type;
 
     public static enum Type{
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
+    }
+    //JPA requires that entities have a no-arguments constructor,You don’t want to be able to use it, though, so you make it private by setting the access attribute to AccessLevel.PRIVATE. And because there are final properties that must be set, you also set the force attribute to true, which results in the Lombok-generated constructor setting them to null.
+    private Ingredients() {
+        Id=null;
+        name=null;
+        type=null;
     }
 
     public Ingredients(Long id, String name, Type type) {
@@ -43,23 +52,14 @@ public class Ingredients {
         return Id;
     }
 
-    public void setId(Long id) {
-        Id = id;
-    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Type getType() {
         return type;
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
 }
