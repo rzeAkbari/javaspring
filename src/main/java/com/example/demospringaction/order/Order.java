@@ -1,7 +1,10 @@
 package com.example.demospringaction.order;
 
+import com.example.demospringaction.taco.Taco;
+
 import javax.validation.constraints.Digits;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Order {
@@ -16,6 +19,7 @@ public class Order {
     private String zip;
     private String ccNumber;
     private String ccExpiration;
+    private List<Taco> tacos;
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
 
@@ -29,6 +33,12 @@ public class Order {
         this.ccExpiration = ccExpiration;
         this.ccCVV = ccCVV;
     }
+
+    public Order() {
+
+    }
+
+
     public Long getId() {
         return Id;
     }
@@ -39,6 +49,14 @@ public class Order {
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    public List<Taco> getTacos() {
+        return tacos;
+    }
+
+    public void setTacos(List<Taco> tacos) {
+        this.tacos = tacos;
     }
 
     public void setCreatedAt(Date createdAt) {
@@ -120,5 +138,8 @@ public class Order {
     @Override
     public int hashCode() {
         return Objects.hash(name, street, city, state, zip, ccNumber, ccExpiration, ccCVV);
+    }
+
+    public void addDesign(Taco savedTaco) {
     }
 }
